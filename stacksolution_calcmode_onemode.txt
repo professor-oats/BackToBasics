@@ -1,0 +1,90 @@
+1. Finding the mode without sorting
+I'm told that it's much easier to find the mode of an array AFTER the numbers have been sorted
+
+I'm not so sure.
+
+std::vector<std::pair<int, unsigned>> mode(const std::vector<int> &v)
+{
+  if (v.empty())
+    return {};
+
+  std::unordered_set<int> seen;
+
+  unsigned max_count(0);
+  std::vector<std::pair<int, unsigned>> ret;
+
+  for (auto i(v.begin()); i != v.end(); ++i)
+    if (seen.find(*i) == seen.end())
+    {
+      const auto count(std::count(i, v.end(), *i));
+
+      if (count > max_count)
+      {
+        max_count = count;
+        ret = {{*i, max_count}};
+      }
+      else if (count == max_count)
+        ret.emplace_back(*i, max_count);
+
+      seen.insert(*i);
+    }
+
+  return ret;
+}
+The algorithm
+
+uses a hash table (seen) to skip already seen numbers;
+doesn't need a copy of the input vector;
+only requires a container with forward iterator support.
+Also note that for small input vectors the function can be simplified removing the hash table.
+
+You can play with the code here.
+
+2. Finding the mode sorting
+std::vector<std::pair<int, unsigned>> mode(std::vector<int> v)
+{
+  if (v.empty())
+    return {};
+
+  std::sort(v.begin(), v.end());
+
+  auto current(*v.begin());
+  unsigned count(1), max_count(1);
+
+  std::vector<std::pair<int, unsigned>> ret({{current, 1}});
+
+  for (auto i(std::next(v.begin())); i != v.end(); ++i)
+  {
+    if (*i == current)
+      ++count;
+    else
+    {
+      count = 1;
+      current = *i;
+    }
+
+    if (count > max_count)
+    {
+      max_count = count;
+      ret = {{current, max_count}};
+    }
+    else if (count == max_count)
+      ret.emplace_back(current, max_count);
+  }
+
+  return ret;
+}
+We assume an unsorted input vector, so the function works on a copy of the original vector that is sorted and processed.
+
+If the original vector is already sorted, the input argument can be passed by reference and the std::sort call can be removed.
+
+You can play with the code here.
+
+Performance
+Performance depends on multiple factor (size of the input vector, distribution of values...).
+
+E.g. if the range of the input integers is small algorithm 1 is faster than algorithm 2.
+
+You can experiment here.
+
+- Manlio
