@@ -1,0 +1,42 @@
+#include <iostream>
+
+/* For now unsolved. Have added a sample solution as part to this */
+
+int main () {
+
+  int noperands;
+  int sumrequest;
+
+  std::cout << "Hello, this program will take a number n of + operands between 0-9 and print every combination that will give the wanted sum (highest value: 45) s\n No duplicates will be used.\n Input n: "
+  std::cin >> noperands;
+
+  std::cout << "Input the wanted sum: ";
+  std::cin >> sumrequest;
+
+  if (sumrequest > 45) {
+    return std::cout << "Too high sum requested. Abort."
+  }
+
+  /* Values that replace each other when possible:
+   Keep in mind that 0 is in the calculation
+
+  Max is 45
+  0 = 0
+  1 = 1
+  2 = 2
+  3 = 1 + 2
+  4 = 4
+  5 = 2 + 3
+  6 = 2 + 4 (not 3 + 3 cause duplicate)
+  7 = 2 + 5 or 3 + 4
+  8 = 2 + 6 or 1 + 7 (not 4 + 4 cause duplicate)
+  9 = 1 + 8 or 2 + 7 or 3 + 6 or 4 + 5
+  10 = 1 + 9 or 2 + 8 or 3 + 7 or 4 + 6
+
+  Theory: For all numbers at 40 + will have to correspond
+
+  Rule is that each number can only be used once in each series
+
+  */
+
+}
